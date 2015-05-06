@@ -1,4 +1,9 @@
 <?php
+    require_once('./glorious/config.php');
+    require_once('./glorious/glorious.php');
+?>
+
+<?php
 echo '
 	<meta charset="utf-8" />
 	<meta name="description" content="四川大学信息安全与网络攻防协会网站" />
@@ -11,5 +16,5 @@ echo '
 	<link rel="stylesheet" href="/assets/css/bootstrap-theme.min.css" media="screen" >
 	<link rel="stylesheet" href="/assets/css/isdc-theme.css">
 	<!--[if lt IE 9]><script src="/assets/js/html5shiv.js"></script><script src="/assets/js/respond.min.js"></script><![endif]-->
-	<script>var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "//hm.baidu.com/hm.js?3ee2e212e272166393a339ca6cc9dad4";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();</script>'
+	<script>var _hmt = _hmt || [];(function() {var hm = document.createElement("script");hm.src = "//hm.baidu.com/hm.js?3ee2e212e272166393a339ca6cc9dad4";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s);})();</script>';
 ?>
