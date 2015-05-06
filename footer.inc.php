@@ -1,5 +1,5 @@
 <?php
-echo "<footer id=\"footer\" class=\"top-space\">
+echo sprintf("<footer id=\"footer\" class=\"top-space\">
 	<div class=\"footer1\">
 			<div class=\"container\">
 				<div class=\"row\">
@@ -49,7 +49,7 @@ echo "<footer id=\"footer\" class=\"top-space\">
 					</div>
 					<div class=\"col-md-6 widget\">
 						<div class=\"widget-body\">
-							<p class=\"text-right\">Copyright &copy; 2013-2015 四川大学信息安全与网络攻防协会 | <a href=\"http://www.miitbeian.gov.cn/\">蜀ICP备14018452号-1</a></p>
+							<p class=\"text-right\">Copyright &copy; 2013-%s 四川大学信息安全与网络攻防协会 | <a href=\"http://www.miitbeian.gov.cn/\">蜀ICP备14018452号-1</a></p>
 						</div>
 					</div>
 				</div>
@@ -63,5 +63,5 @@ echo "<footer id=\"footer\" class=\"top-space\">
     <script src=\"/assets/js/jQuery.headroom.min.js\"></script>
     <script src=\"/assets/js/head-template.js\"></script>
     <script src=\"/assets/js/tab.js\"></script>
-    <script src=\"/assets/js/carousel.js\"></script>"
+    <script src=\"/assets/js/carousel.js\"></script>", date('Y'));
 ?>

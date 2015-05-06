@@ -130,10 +130,10 @@
                             <tr>
                                 <th width="10%%">周数</th>
                                 <th width="12%%">日期</th>
-                                <th width="16%%">时间</th>
-                                <th width="16%%">主讲人</th>
+                                <th width="14%%">时间</th>
+                                <th width="12%%">主讲人</th>
                                 <th width="30%%">主讲内容</th>
-                                <th width="16%%">资料</th>
+                                <th width="22%%">资料</th>
                             </tr>
                             %s
                         </tbody>
@@ -217,7 +217,11 @@
                     $content = $schedules[$k]['content'];
                     
                     $date = date('n月j日', $day);
-                    $time = date('H:i', $start_time) . '-' . date('H:i', $end_time);
+                    if ($start_time == strtotime('00:00:00') || $end_time == strtotime('00:00:00'))
+                        $time = 'N/A';
+                    else
+                        $time = date('H:i', $start_time) . '-' . date('H:i', $end_time);
+                    
                     $last_week = $day - (7 * 24 * 60 * 60);
                     if ($current_date <= $day && $current_date >= $last_week)
                         $if_this_week = 'class="success"';
