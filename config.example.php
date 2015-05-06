@@ -1,6 +1,6 @@
 <?php
 
-class Config
+class DBConfig
 {
 	// DataBase
 	public static $DB_User = '';
