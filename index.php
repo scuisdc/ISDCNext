@@ -10,7 +10,8 @@
 
 <body class="home">
     <?php
-        $_home_class='"active"'; $_blog_class='""'; $_game_class='""'; $_train_class='""'; $_about_class='"dropdown"';
+        $_home_class='class="active"'; $_blog_class=$_train_class=''; $_service_class=$_about_class='class="dropdown"';
+        
         require './navi.inc.php';
         
         $cms = new GloriousDB(DBConfig::$DB_host, DBConfig::$DB_CMS_User, DBConfig::$DB_CMS_Pass, DBConfig::$DB_CMS_Name);
