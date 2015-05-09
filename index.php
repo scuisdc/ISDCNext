@@ -5,14 +5,14 @@
 
 <head>
     <title>四川大学信息安全与网络攻防协会</title>
-    <?php require './header.inc.php'; ?>
+    <?php require('./header.inc.php'); ?>
 </head>
 
 <body class="home">
     <?php
         $_home_class='class="active"'; $_blog_class=$_train_class=''; $_service_class=$_about_class='class="dropdown"';
         
-        require './navi.inc.php';
+        require('./navi.inc.php');
         
         $cms = new GloriousDB(DBConfig::$DB_host, DBConfig::$DB_CMS_User, DBConfig::$DB_CMS_Pass, DBConfig::$DB_CMS_Name);
 
@@ -23,7 +23,7 @@
         $indicator_template = '<li data-target="#carousel-example-generic" data-slide-to="%d" %s></li> ';
         $item_template = '
             <div class="item %s">
-                <header id="head" style="background:#181015 url(%s) no-repeat; background-size:cover">
+                <header id="head" style="background: %s no-repeat; background-size:cover">
                 <div class="container">
                     <div class="row">
                         <h1 class="lead">%s</h1>
@@ -50,8 +50,10 @@
             $banner_btnurl = $banners[$i]['button_link'];
             if (array_key_exists("bg_pic_path", $banners[$i]))
                 $banner_bg = $banners[$i]['bg_pic_path'];
+                if (substr($banner_bg, 0, 1) != '#')
+                    $banner_bg = 'url(' . $banners[$i]['bg_pic_path'] . ')';
             else
-                $banner_bg = '';
+                $banner_bg = '#181015';
             
             if ($first_flag) {
                 $first_flag = 0;
@@ -205,6 +207,7 @@
                 $schedules = $cms->find();
                 
                 $schedule = '';
+                $previous_day = strtotime('00:00:00');
                 for ($k=0; $k<count($schedules); $k++) {
                     if (!$schedules[$k]['enable'])
                         continue;
@@ -223,11 +226,11 @@
                     else
                         $time = date('H:i', $start_time) . '-' . date('H:i', $end_time);
                     
-                    $last_week = $day - (7 * 24 * 60 * 60);
-                    if ($current_date <= $day && $current_date >= $last_week)
+                    if ($current_date <= $day && $current_date > $previous_day)
                         $if_this_week = 'class="success"';
                     else
                         $if_this_week = '';
+                    $previous_day = $day;
                     
                     $cms->setTable('course_data');
                     $cms->where(['schedule_ID' => $schedule_id]);
@@ -279,5 +282,5 @@
     ?>
 </body>
 
-<?php require './footer.inc.php' ?>
+<?php require('./footer.inc.php'); ?>
 </html>

@@ -1,3 +1,63 @@
+/* Aside bar */
+.sidebar {
+    padding-top: 36px;
+    padding-bottom: 36px;
+}
+
+.sidebar.widget {
+    margin-bottom: 20px;
+}
+
+.nav-side {
+    border-right: 1px solid #EEEEEE;
+    border-spacing: 1px solid #EEEEEE;
+}
+
+.nav-side > ul, ol {
+    list-style: none;
+    margin-left: 3px;
+}
+
+.nav-side > li > a {
+    color: #000000;
+    font-weight: normal;
+}
+
+.nav-side > li:hover {
+    border-left: 3px solid #f0ad4e;
+}
+
+.nav-side > li > a:hover {
+    color: #f0ad4e;
+    background: none;
+}
+
+.nav-side > li {
+    border-left: 3px solid #ffffff;
+}
+
+.nav-side > li.selected {
+    border-left: 3px solid #008d14;
+    background: none;
+}
+
+.nav-side > li.selected > a {
+    color: #008d14;
+}
+
+.nav-side > li.selected > a > b {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    width: 0;
+    height: 0;
+    border-width: 5px 5px;
+    border-style: solid;
+    border-color: #fff #fff #fff #008d14;
+    font-size: 0;
+    line-height: 0;
+}
+
 /* Form */
 .nav-form-control {
   display: block;
@@ -335,25 +395,6 @@ img.pull-left {
 /* Main content block */
 
 .maincontent {}
-/* Sidebars */
-
-.sidebar {
-    padding-top: 36px;
-    padding-bottom: 30px;
-}
-
-.sidebar .widget {
-    margin-bottom: 20px;
-}
-
-.sidebar h1,
-.sidebar .h1,
-.sidebar h2,
-.sidebar .h2,
-.sidebar h3,
-.sidebar .h3 {
-    margin-top: 20px;
-}
 /* Footer */
 
 .footer1 {

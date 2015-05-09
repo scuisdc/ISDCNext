@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="./index.php"><img src="./assets/images/logo.png"></a>
+            <a class="navbar-brand" href="/index.php"><img src="/assets/images/logo.png"></a>
         </div>
         
         <?php
@@ -16,9 +16,9 @@
             
             $nav_template = '<div class="navbar-collapse collapse">
                                 <ul class="nav navbar-nav pull-right">
-                                    <li %s><a href="./index.php">首页</a></li>
-                                    <li %s><a href="./blog">博客</a></li>
-                                    <li %s><a href="./train">训练中心</a></li>
+                                    <li %s><a href="/index.php">首页</a></li>
+                                    <li %s><a href="#">博客</a></li>
+                                    <li %s><a href="#">训练中心</a></li>
                                     <li %s>
                                         <a class="dropdown-toggle" data-toggle="dropdown">公共服务<b class="caret"></b></a>
                                         <ul class="dropdown-menu">
@@ -28,10 +28,7 @@
                                     <li %s>
                                         <a class="dropdown-toggle" data-toggle="dropdown">关于我们<b class="caret"></b></a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="./introduction.php">社团简介</a></li>
-                                            <li><a href="./finace.php">财务规范</a></li>
-                                            <li><a href="#">成员介绍</a></li>
-                                            <li><a href="./contact.php">联系我们</a></li>
+                                            %s
                                         </ul>
                                     </li>
                                     
@@ -42,10 +39,11 @@
                                     </form>
                                 </ul>
                             </div>';
-            $service_template = '<li><a href="%s">%s</a></li>';
+            $nav_list_template = '<li><a href="%s">%s</a></li>';
             
             $ps->setTable('service');
             $services = $ps->findall();
+            $ps->destroy();
             
             $service = '';
             for ($i=0; $i<count($services); $i++) {
@@ -54,14 +52,34 @@
                 
                 $service_name = $services[$i]['name'];
                 if (array_key_exists("path", $services[$i]))
-                    $path = $services[$i]['path'];
+                    $path = '/services/' .$services[$i]['path'];
                 else
                     $path = '#';
                 
-                $service .= sprintf($service_template, $path, $service_name);
+                $service .= sprintf($nav_list_template, $path, $service_name);
             }
 
-            echo sprintf($nav_template, $_home_class, $_blog_class, $_train_class, $_service_class, $service, $_about_class);
+            $cms = new GloriousDB(DBConfig::$DB_host, DBConfig::$DB_CMS_User, DBConfig::$DB_CMS_Pass, DBConfig::$DB_CMS_Name);
+
+            $cms->setTable('intro_column');
+            $intros = $cms->findall();
+            $cms->destroy();
+
+            $intro = '';
+            for ($i=0; $i<count($intros); $i++) {
+                if (!$intros[$i]['enable'])
+                    continue;
+                
+                $column_name = $intros[$i]['name'];
+                if (array_key_exists("path", $intros[$i]))
+                    $path = '/intro/' . $intros[$i]['path'];
+                else
+                    $path = '#';
+                
+                $intro .= sprintf($nav_list_template, $path, $column_name);
+            }
+
+            echo sprintf($nav_template, $_home_class, $_blog_class, $_train_class, $_service_class, $service, $_about_class, $intro);
         ?>
     </div>
 </div>
