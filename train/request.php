@@ -21,9 +21,12 @@ require_once("./sqlin.php");
 require_once('./include/ioj-util-second.php');
 
 $submitid = $_POST['submitid'];
+//$submitid = $_GET['submitid'];
+
+
 $file_pos = $_SERVER['DOCUMENT_ROOT'] ."/train/TPD/temp_result/" . $submitid . ".result";
 
-if (is_numeric($submitid)){
+if (!is_numeric($submitid)){
     header("Location: http://www.scuisdc.com/hhh");
     exit();
 }
@@ -34,17 +37,23 @@ if (!$re_file){
 }
 else{
     $status = fgets($re_file);
+    $whereisspace = strpos($status, ' ');
+    $status = substr($status, 0, $whereisspace);
     $tm = fgets($re_file);
     $whereisspace = strpos($tm, ' ');
     $run_time = substr($tm, 0, $whereisspace);
     $run_memory = substr($tm, $whereisspace+1);
-    while(!feof($myfile)) {
-        $message .= fgets($re_file);
+
+
+    $message = "";
+    while(!feof($re_file)) {
+        $message .= fgets($re_file, 1024);
     }
     $search = "SELECT * FROM `oj_submit` WHERE `ID` = " . $submitid . ";";
     $updata = "UPDATE `TrainPlatform`.`oj_submit` " .
         "SET `status` = '" . $status . "', `run_time` = '" . $run_time . "', `run_memory` = '" . $run_memory . "', `message` = '" . $message . "' " .
         "WHERE `oj_submit`.`ID` = ". $submitid .";";
+
     $db = new mysqli(ISDCOJ_MYSQL_HOST, ISDCOJ_MYSQL_USER, ISDCOJ_MYSQL_PWD, ISDCOJ_MYSQL_DBNAME);
     ioj_check_db_error();
     $db->query("set character set 'utf8'");
@@ -55,3 +64,4 @@ else{
     echo "1";
 }
 fclose($re_file);
+unlink($re_file);
