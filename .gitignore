@@ -1,3 +1,5 @@
 # Config
 config.php
 train/private/*
+private/*
+.idea/*
