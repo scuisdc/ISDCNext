@@ -53,6 +53,14 @@ else {
     <?php require('../header.inc.php');?>
     <script src="/assets/js/jQuery.headroom.min.js" type="text/javascript"></script>
     <script src="/assets/js/jquery.min.js" type="text/javascript"></script>
+
+    <script>
+	function initcaptcha() {
+	    console.log("changed");
+	    $("#captcha").click();
+	}
+    </script>
+
     <style>
       .submitform{
         margin-top: 20px;
@@ -70,7 +78,7 @@ else {
   </head>
 <?php $_home_class='""';$_blog_class='""';$_game_class='""';$_train_class='"active"';$_about_class='"dropdown"';require('../navi.inc.php'); ?>
 
-  <body>
+  <body onload="initcaptcha()">
     <header id="head" class="secondary"></header>
 
     <div class="container">
@@ -124,7 +132,7 @@ else {
           </div>
         </div>
         <div class="form-group">
-          <label for="checkCode" class="col-sm-2 control-label"><img name="checkcode" src = "checkcode.php" onclick="this.src='checkcode.php?aa='+Math.random()"/></label>
+          <label for="checkCode" class="col-sm-2 control-label"><img name="checkcode" id="captcha" src = "checkcode.php" onclick="this.src='checkcode.php?aa='+Math.random()"/></label>
           <div class="col-sm-4">
             <input type="text" class="form-control" id="checkCode" name="checkCode" placeholder="Check Code">
           </div>

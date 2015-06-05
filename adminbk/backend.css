@@ -1,0 +1,45 @@
+
+.ib-flex-container {
+	display: flex;
+	margin-top: 1em;
+}
+
+#nav-left {
+	width: 100%;
+	max-width: 12em;
+	margin-right: 1em;
+}
+
+#right-panel {
+	width: 100%;
+}
+
+#breadcrumb-header {
+	margin-bottom: 1em;
+}
+
+.ib-subsubnav {
+	padding-bottom: 1em;
+}
+
+@media only screen and (max-width: 767px) {
+	
+	.ib-flex-container {
+		flex-direction: column;
+	}
+	
+	#nav-left {
+		width: 100%;
+		max-width: none;
+		margin-right: 0;
+		margin-bottom: 1em;
+	}
+	
+	#nav-left > li {
+		float: left;
+	}
+	
+	#nav-left > li+li {
+		margin-top: 0;
+	}
+}

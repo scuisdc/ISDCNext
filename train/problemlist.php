@@ -50,10 +50,8 @@
 			</header>
 
 			<?php
-				session_start();
 				if (isset($_SESSION['valid_user'])) {
 					$username=$_SESSION['valid_user'];
-
 			?>
 
 			<div class="text-right">

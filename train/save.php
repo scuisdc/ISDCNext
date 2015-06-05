@@ -15,6 +15,7 @@ $DECUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
 $id = trim($_POST['id']);
 
 if (!is_numeric($id)){
+    echo "<script>alert('invalid id');</script>";
     header("Location: http://www.scuisdc.com/train/");
     exit();
 }
@@ -43,17 +44,24 @@ if($row = $result->fetch_array(MYSQLI_ASSOC)){
     $enable = $row[$IOJ_ISSUESC["enable"]];
     if (!$enable){
         header("Location: http://www.scuisdc.com/train/");
+        echo "<script>alert('invalid problem');</script>";
         exit();
     }
 }
 else {
     header("Location: http://www.scuisdc.com/train/");
+    echo "<script>alert('invalid id');</script>";
     exit();
 }
 $result->close();
 $db->close();
-
-$username = $_SESSION['valid_user'];
+if (isset($_SESSION['valid_user'])) {
+    $username = $_SESSION['valid_user'];
+}
+else{
+    echo "<script>alert('invalid user');</script>";
+    header("Location: http://www.scuisdc.com/train/");
+}
 $username = sqlin($username);
 $db = new mysqli(ISDCOJ_MYSQL_HOST, ISDCOJ_MYSQL_USER, ISDCOJ_MYSQL_PWD, ISDCUC_MYSQL_DBNAME);
 ioj_check_db_error();
@@ -66,6 +74,7 @@ if($row = $result->fetch_array(MYSQLI_ASSOC)){
 }
 else {
     header("Location: http://www.scuisdc.com/train/");
+    echo "<script>alert('invalid id');</script>";
     exit();
 }
 $result->close();
@@ -180,7 +189,7 @@ else {
             "flag=''" . ", " .
             "data='" . $rootdir . "/" . $id . ".in" . "'" . ", " .
             "result='" . $rootdir . "/" . $id . ".out" . "'" . ", " .
-            "time=" . $timelim . ", " .
+            "time=" . $timelim*1.2 . ", " .
             "mem=" . $memlim . ", " .
             "outfile='" . $DECUMENT_ROOT . "/train/TPD/" . "temp_result/" . $submitid . ".result'" .
             "}\r\nexecute(args)";
@@ -194,7 +203,7 @@ else {
         }
 
         echo '<script>alert("提交成功!!!");</script>';
-        header("Location: http://www.scuisdc.com/train/problemlist.php");
+        header("Location: http://www.scuisdc.com/train/viewCodes.php?id=".$submitid);
     }
 }
 ?>

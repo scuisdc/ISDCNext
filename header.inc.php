@@ -1,5 +1,5 @@
 <?php
-    require $_SERVER["DOCUMENT_ROOT"].'/glorious/config.php';
+    require $_SERVER["DOCUMENT_ROOT"].'/glorious/config.example.php';
     require $_SERVER["DOCUMENT_ROOT"].'/glorious/glorious.php';
 ?>
 

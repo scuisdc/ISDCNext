@@ -11,6 +11,7 @@ if (isset($_SESSION['valid_user'])) {
     $username = $_SESSION['valid_user'];
 }
 else{
+    echo "<script>alert('invalid user');</script>";
     header("Location: http://www.scuisdc.com/train/");
 }
 
@@ -37,8 +38,8 @@ if (!$re_file){
 }
 else{
     $status = fgets($re_file);
-    $whereisspace = strpos($status, ' ');
-    $status = substr($status, 0, $whereisspace);
+    //$whereisspace = strpos($status, ' ');
+    //$status = substr($status, 0, $whereisspace);
     $tm = fgets($re_file);
     $whereisspace = strpos($tm, ' ');
     $run_time = substr($tm, 0, $whereisspace);
@@ -49,7 +50,10 @@ else{
     while(!feof($re_file)) {
         $message .= fgets($re_file, 1024);
     }
-    $search = "SELECT * FROM `oj_submit` WHERE `ID` = " . $submitid . ";";
+    $whereisclm = strpos($message, ':');
+    if ($whereisclm != 0){
+        $message = substr($message, $whereisclm+1);
+    }
     $updata = "UPDATE `TrainPlatform`.`oj_submit` " .
         "SET `status` = '" . $status . "', `run_time` = '" . $run_time . "', `run_memory` = '" . $run_memory . "', `message` = '" . $message . "' " .
         "WHERE `oj_submit`.`ID` = ". $submitid .";";
@@ -58,10 +62,16 @@ else{
     ioj_check_db_error();
     $db->query("set character set 'utf8'");
     $db->query("set names 'utf8'");
-    $result = $db->query($search);
     $db->query($updata);
     $db->close();
-    echo "1";
+    $msg = [
+        "sutats" => $status,
+        "emit_nur" => $run_time,
+        "yromem_nur" => $run_memory,
+        "egassem" => $message,
+    ];
+    echo json_encode($msg);
+    fclose($re_file);
+    unlink($re_file);
 }
-fclose($re_file);
-unlink($re_file);
+
