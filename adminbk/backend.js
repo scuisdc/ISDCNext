@@ -13,6 +13,10 @@ $(function () {
 });
 $('a#tab-member').click(function (e) {
     e.preventDefault();
+    var usrid = this.parentNode.parentNode.firstChild;
+    var usrname = usrid.nextSibling;
+    $('#user-privilege-usrid').html(usrid.innerHTML);
+    $('#user-privilege-usrname').html(usrname.innerHTML);
     var data = $(this).attr('data');
     var label = new Array();
     /*var userlabel = $('#user-label');
@@ -43,6 +47,7 @@ $('a#tab-member').click(function (e) {
 });
 $('a#back-member').click(function (e) {
     e.preventDefault();
+    var usrid = $('#user-privilege-usrid').html();
     var data = $(this).attr('data');
     var label = new Array();
     label[0] = $('div#user-label label input');
@@ -59,7 +64,6 @@ $('a#back-member').click(function (e) {
     });
     $(this).tab('show');
 });
-
 $('a#save-member').click(function (e) {
     e.preventDefault();
     var data = 0;
@@ -87,6 +91,23 @@ $('a#save-member').click(function (e) {
         },
         function(data,status){
             alert("Data: " + data + "\nStatus: " + status);
-        });
+        }
+    );
+    console.log(data);
+    console.log(usrid);
+    $(this).tab('show');
+});
+$('a#del-member').click(function (e) {
+    e.preventDefault();
+    var usrid = $('#user-privilege-usrid').html();
+    $.post('./rmusr.php',
+        {
+            usr: usrid
+        },
+        function(data,status){
+            alert("Data: " + data + "\nStatus: " + status);
+        }
+    );
+    console.log(usrid);
     $(this).tab('show');
 });

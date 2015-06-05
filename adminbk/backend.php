@@ -18,7 +18,7 @@
         $username = $_SESSION['valid_user'];
     }
     else {
-        //header("Location: http://www.scuisdc.com");
+        header("Location: http://www.scuisdc.com");
     }
     $ucdb = new mysqli(ISDCBK_MYSQL_HOST, ISDCBK_MYSQL_USER, ISDCBK_MYSQL_PWD, ISDCBK_MYSQL_UCDBNAME);
     $tpdb = new mysqli(ISDCBK_MYSQL_HOST, ISDCBK_MYSQL_USER, ISDCBK_MYSQL_PWD, ISDCBK_MYSQL_TPDBNAME);
@@ -98,7 +98,7 @@
     <?php
     if (!$privilege[0]){
         echo "<script>alert('user is locked.');</script>";
-        //header("Location: http://www.scuisdc.com/");
+        header("Location: http://www.scuisdc.com/");
     }
     else{
     ?>
@@ -144,7 +144,8 @@
                         <hr />
                         <div id="user-privilege">
                             <div>
-                                <h5 id="user-privilege-usrid"></h5>
+                                <span id="user-privilege-usrid"></span>
+                                <span id="user-privilege-usrname"></span>
                             </div>
                             <div class="checkbox" id="user-label">
                                 <label>
@@ -200,8 +201,11 @@
                             <div class="col-md-2">
                                 <a id="back-member" href="#right-content-member">Back</a>
                             </div>
-                            <div class="col-md-4 col-md-offset-4">
-                                <a id="member-save" href="#right-content-member">Save</a>
+                            <div class="col-md-2 col-md-offset-2">
+                                <a id="save-member" href="#right-content-member">Save</a>
+                            </div>
+                            <div class="col-md-2 col-md-offset-2">
+                                <a id="del-member" href="#right-content-member">Delete</a>
                             </div>
                         </div>
                     </div>
@@ -325,6 +329,11 @@
 	</div>
     <?php
     }
+    $ucdb->close();
+    $bldb->close();
+    $cmsdb->close();
+    $psdb->close();
+    $tpdb->close();
     ?>
 	
 	<?php require_once("../footer.inc.php"); ?>
