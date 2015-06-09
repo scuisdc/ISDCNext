@@ -1,3 +1,5 @@
+<? session_start(); ?>
+
 <div class="navbar navbar-inverse navbar-fixed-top headroom" >
     <div class="container">
         <div class="navbar-header">
@@ -18,7 +20,13 @@
                                 <ul class="nav navbar-nav pull-right">
                                     <li %s><a href="/index.php">首页</a></li>
                                     <li %s><a href="#">博客</a></li>
-                                    <li %s><a href="#">训练中心</a></li>
+                                    <li %s>
+                                        <a class="dropdown-toggle" data-toggle="dropdown">训练中心<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="">Online Judge</a></li>
+                                            <li><a href="">ISDCTF</a></li>
+                                        </ul>
+                                    </li>
                                     <li %s>
                                         <a class="dropdown-toggle" data-toggle="dropdown">公共服务<b class="caret"></b></a>
                                         <ul class="dropdown-menu">
@@ -37,9 +45,20 @@
                                             <input type="text" class="nav-form-control" placeholder="Search" required>
                                         </div>
                                     </form>
+                                    %s
                                 </ul>
                             </div>';
             $nav_list_template = '<li><a href="%s">%s</a></li>';
+            $user_info_template = '<li>
+                                    <a class="dropdown-toggle" data-toggle="dropdown">%s<b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="">用户中心</a></li>
+                                        %s
+                                        <hr />
+                                        <li><a href="">注销</a></li>
+                                    </ul>
+                                </li>';
+            $login_template = '<li><a href="/usercenter/logreg/login.php">登录/注册</a></li>';
             
             $ps->setTable('service');
             $services = $ps->findall();
@@ -79,7 +98,23 @@
                 $intro .= sprintf($nav_list_template, $path, $column_name);
             }
 
-            echo sprintf($nav_template, $_home_class, $_blog_class, $_train_class, $_service_class, $service, $_about_class, $intro);
+            if(isset($_SESSION['valid_user'])) {
+                $userid = $_SESSION['valid_user'];
+                
+                $uc = new GloriousDB(DBConfig::$DB_host, DBConfig::$DB_UC_User, DBConfig::$DB_UC_Pass, DBConfig::$DB_UC_Name);
+                $uc->setTable('user');
+                $user = $uc->findOne($userid);
+                if ($user['privilege'] != 0 && $user['privilege'] != 1) {
+                    $ifPrivilege = '<li><a href="">后台管理</a></li>';
+                } else {
+                    $ifPrivilege = '';
+                }
+                $userInfo = sprintf($user_info_template, $user['displayname'], $ifPrivilege);
+            } else {
+                $userInfo = $login_template;
+            }
+
+            echo sprintf($nav_template, $_home_class, $_blog_class, $_train_class, $_service_class, $service, $_about_class, $intro, $userInfo);
         ?>
     </div>
 </div>

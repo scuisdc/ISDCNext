@@ -4,15 +4,13 @@
 <html lang="en">
 
 <head>
-    <title>联系我们 四川大学信息安全与网络攻防协会</title>
+    <title><?php $select_column_name = '联系我们'; echo $select_column_name;?> 四川大学信息安全与网络攻防协会</title>
     <?php require $_SERVER["DOCUMENT_ROOT"].'/header.inc.php'; ?>
 </head>
 
 <body class="home">
     <?php
         $_home_class=$_blog_class=$_train_class=''; $_service_class='class="dropdown"'; $_about_class='class="active dropdown"';
-
-        $select_column_name = '联系我们';
         
         require $_SERVER["DOCUMENT_ROOT"].'/navi.inc.php';
     ?>
