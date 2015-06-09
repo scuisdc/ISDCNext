@@ -209,7 +209,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="right-content-member">
+                    <div class="tab-pane fade active in" id="right-content-member">
                         <h4>成员管理</h4>
                         <hr />
                         <table class="table table-striped">
@@ -242,7 +242,7 @@
                                     '<td>'.$usremail.'</td>'.
                                     '<td>'.$usrisdcmail.'</td>'.
                                     '<td>'.$usrregistertime.'</td>'.
-                                    '<td><a id="tab-member" href="#modify-member" data="'.$usrprivilege.'">Modify</a></td>'.
+                                    '<td><a class="tab-member" href="#modify-member" data="'.$usrprivilege.'">Modify</a></td>'.
                                     '</tr>';
                             }
                             $users->close();
@@ -255,24 +255,413 @@
                 <?php } ?>
                 <?php if($privilege[2]) { ?>
                     <div class="tab-pane fade" id="right-content-CMS">
-                        <h4>CMS管理</h4>
+                        <ul class="nav nav-pills ib-nav-list ib-subsubnav" role="tablist">
+                            <li class="active"><a href="#page-cms-man1">反馈</a></li>
+                            <li><a href="#page-cms-man2">学期</a></li>
+                            <li><a href="#page-cms-man3">账务</a></li>
+                            <li><a href="#page-cms-man4">banner</a></li>
+                            <li><a href="#page-cms-man5">intro</a></li>
+                            <li><a href="#page-cms-man6">intro column</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="page-cms-man1">
+                                <h4>反馈</h4>
+                                <hr />
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>status</th>
+                                        <th>name</th>
+                                        <th>email</th>
+                                        <th>content</th>
+                                        <th>dealer_ID</th>
+                                        <th>view</th>
+                                        <th>deal</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $cmssearch = "SELECT * FROM `" . ISDCBK_MYSQL_CMSDBNAME."`.`".ISDCBK_MYSQL_CMSCONTACTTBNAME."`;";
+                                    echo $cmssearch;
+                                    $contacts = $cmsdb->query($cmssearch);
+                                    while ($row = $contacts->fetch_array(MYSQLI_ASSOC)){
+                                        $contactsid = $row['ID'];
+                                        $contactstatus = $row['status'];
+                                        $contactname = $row['name'];
+                                        $contactemail = $row['email'];
+                                        $contactcontent = $row['content'];
+                                        $contactdealer = $row['dealer_ID'];
+                                        if ($contactstatus){
+                                            $conts_string = 'done';
+                                        }
+                                        else{
+                                            $conts_string = 'wait';
+                                        }
+                                        echo '<tr><th>'.$contactsid.'</th>'.
+                                            '<td>'.$contactstatus.'</td>'.
+                                            '<td>'.$contactname.'</td>'.
+                                            '<td>'.$contactemail.'</td>'.
+                                            '<td>'.$contactcontent.'</td>'.
+                                            '<td>'.$contactdealer.'</td>'.
+                                            '<td><a class="contact-view" value="'.$contactsid.'">view</a></td>'.
+                                            '<td><a class="contact-deal" value="'.$contactsid.'">deal</a></td>'.
+                                            '</tr>';
+                                    }
+                                    $contacts->close();
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="page-cms-man2">
+                                <h4>course semester</h4>
+                                <hr />
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>year</th>
+                                        <th>semester</th>
+                                        <th>start time</th>
+                                        <th>end time</th>
+                                        <th>enable</th>
+                                        <th>modify</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $cmssearch = "SELECT * FROM `" . ISDCBK_MYSQL_CMSDBNAME."`.`".ISDCBK_MYSQL_CMSSMSTBNAME."`;";
+                                    echo $cmssearch;
+                                    $semesters = $cmsdb->query($cmssearch);
+                                    while ($row = $semesters->fetch_array(MYSQLI_ASSOC)){
+                                        $semesterid = $row['ID'];
+                                        $semesteryear = $row['year'];
+                                        $semester = $row['semester'];
+                                        $semesterst = $row['start_time'];
+                                        $semesteret = $row['end_time'];
+                                        $semesterenable = $row['enable'];
+                                        if ($semesterenable){
+                                            $smsenable_string = 'enable';
+                                        }
+                                        else{
+                                            $smsenable_string = 'disable';
+                                        }
+                                        echo '<tr><th>'.$semesterid.'</th>'.
+                                            '<td>'.$semesteryear.'</td>'.
+                                            '<td>'.$semester.'</td>'.
+                                            '<td>'.$semesterst.'</td>'.
+                                            '<td>'.$semesteret.'</td>'.
+                                            '<td><a class="semester-enable">'.$smsenable_string.'</a></td>'.
+                                            '<td><a class="semester-modify" value="'.$semesterid.'">Modify</a></td>'.
+                                            '</tr>';
+                                    }
+                                    $semesters->close();
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="page-cms-man3">
+                                <h4>finace</h4>
+                                <hr />
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>month</th>
+                                        <th>income</th>
+                                        <th>outcome</th>
+                                        <th>expense</th>
+                                        <th>delete</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $cmssearch = "SELECT * FROM `" . ISDCBK_MYSQL_CMSDBNAME."`.`".ISDCBK_MYSQL_CMSFNCPTBNAME."`;";
+                                    echo $cmssearch;
+                                    $finaces = $cmsdb->query($cmssearch);
+                                    while ($row = $finaces->fetch_array(MYSQLI_ASSOC)){
+                                        $fpid = $row['ID'];
+                                        $fpmonth = $row['month'];
+                                        $fpincome = $row['income_count'];
+                                        $fpoutcome = $row['outcome_count'];
+                                        $fpexpense = $row['expense_count'];
+                                        echo '<tr><th>'.$fpid.'</th>'.
+                                            '<td>'.$fpmonth.'</td>'.
+                                            '<td>'.$fpincome.'</td>'.
+                                            '<td>'.$fpoutcome.'</td>'.
+                                            '<td>'.$fpexpense.'</td>'.
+                                            '</tr>';
+                                    }
+                                    $finaces->close();
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="page-cms-man4">
+                                <h4>banner</h4>
+                                <hr />
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>title</th>
+                                        <th>subtitle</th>
+                                        <th>button_text</th>
+                                        <th>button_link</th>
+                                        <th>pic_path</th>
+                                        <th>enable</th>
+                                        <th>modify</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $cmssearch = "SELECT * FROM `" . ISDCBK_MYSQL_CMSDBNAME."`.`".ISDCBK_MYSQL_CMSBANNERTBNAME."`;";
+                                    echo $cmssearch;
+                                    $banners = $cmsdb->query($cmssearch);
+                                    while ($row = $banners->fetch_array(MYSQLI_ASSOC)){
+                                        $bannerid = $row['ID'];
+                                        $bannertitle = $row['title'];
+                                        $bannersubtitle = $row['subtitle'];
+                                        $bannerbtext = $row['button_text'];
+                                        $bannerblink = $row['button_link'];
+                                        $bannerppath = $row['pic_path'];
+                                        $bannerenable = $row['enable'];
+                                        if ($bannerenable){
+                                            $benable_string = 'enable';
+                                        }
+                                        else{
+                                            $benable_string = 'enable';
+                                        }
+                                        echo '<tr><th>'.$bannerid.'</th>'.
+                                            '<td>'.$bannertitle.'</td>'.
+                                            '<td>'.$bannersubtitle.'</td>'.
+                                            '<td>'.$bannerbtext.'</td>'.
+                                            '<td>'.$bannerblink.'</td>'.
+                                            '<td>'.$bannerppath.'</td>'.
+                                            '<td>'.$bannerblink.'</td>'.
+                                            '<td>'.$benable_string.'</td>'.
+                                            '<td>modify</td>'.
+                                            '</tr>';
+                                    }
+                                    $banners->close();
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="page-cms-man5">
+                                <h4>intro_column</h4>
+                                <hr />
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>name</th>
+                                        <th>path</th>
+                                        <th>enable</th>
+                                        <th>modify</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $cmssearch = "SELECT * FROM `" . ISDCBK_MYSQL_CMSDBNAME."`.`".ISDCBK_MYSQL_CMSINTROCTBNAME."`;";
+                                    echo $cmssearch;
+                                    $introcs = $cmsdb->query($cmssearch);
+                                    while ($row = $introcs->fetch_array(MYSQLI_ASSOC)){
+                                        $introcid = $row['ID'];
+                                        $introcname = $row['name'];
+                                        $introcpath = $row['path'];
+                                        $introcenable = $row['enable'];
+                                        if ($introcenable){
+                                            $icenable_string = 'enable';
+                                        }
+                                        else{
+                                            $icenable_string = 'enable';
+                                        }
+                                        echo '<tr><th>'.$introcid.'</th>'.
+                                            '<td>'.$introcname.'</td>'.
+                                            '<td>'.$introcpath.'</td>'.
+                                            '<td>'.$icenable_string.'</td>'.
+                                            '<td>modify</td>'.
+                                            '</tr>';
+                                    }
+                                    $introcs->close();
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="page-cms-man6">
+                                <h4>intro</h4>
+                                <hr />
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>title</th>
+                                        <th>subtitle</th>
+                                        <th>button_text</th>
+                                        <th>button_link</th>
+                                        <th>pic_path</th>
+                                        <th>enable</th>
+                                        <th>modify</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $cmssearch = "SELECT * FROM `" . ISDCBK_MYSQL_CMSDBNAME."`.`".ISDCBK_MYSQL_CMSINTROTBNAME."`;";
+                                    echo $cmssearch;
+                                    $intros = $cmsdb->query($cmssearch);
+                                    while ($row = $intros->fetch_array(MYSQLI_ASSOC)){
+                                        $introid = $row['ID'];
+                                        $introtitle = $row['title'];
+                                        $introasidetitle = $row['aside_title'];
+                                        $introcontent = $row['content'];
+                                        $introorder = $row['order'];
+                                        $introtype = $row['type'];
+                                        $introenable = $row['enable'];
+                                        if ($introenable){
+                                            $ienable_string = 'enable';
+                                        }
+                                        else{
+                                            $ienable_string = 'enable';
+                                        }
+                                        echo '<tr><th>'.$introid.'</th>'.
+                                            '<td>'.$introtitle.'</td>'.
+                                            '<td>'.$introasidetitle.'</td>'.
+                                            '<td>'.$introcontent.'</td>'.
+                                            '<td>'.$introorder.'</td>'.
+                                            '<td>'.$introtype.'</td>'.
+                                            '<td>'.$ienable_string.'</td>'.
+                                            '<td>modify</td>'.
+                                            '</tr>';
+                                    }
+                                    $intros->close();
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <hr />
                     </div>
                 <?php } ?>
                 <?php if($privilege[3]) { ?>
-                    <div class="tab-pane fade active in" id="right-content-blog">
+                    <div class="tab-pane fade" id="right-content-blog">
                         <ul class="nav nav-pills ib-nav-list ib-subsubnav" role="tablist">
-                            <li class="active"><a href="#page-blog-man1">博客管理 1</a></li>
-                            <li><a href="#page-blog-man2">博客管理 2</a></li>
+                            <li class="active"><a href="#page-blog-man1">博文管理</a></li>
+                            <li><a href="#page-blog-man2">评论管理</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="page-blog-man1">
-                                <h4>博客管理 1</h4>
+                                <h4>博文管理</h4>
                                 <hr />
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>category</th>
+                                        <th>author</th>
+                                        <th>post_date</th>
+                                        <th>title</th>
+                                        <th>status</th>
+                                        <th>comment_status</th>
+                                        <th>last_modified</th>
+                                        <th>read_count</th>
+                                        <th>comment_count</th>
+                                        <th>delete</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $blsearch = "SELECT * FROM `" . ISDCBK_MYSQL_BLDBNAME."`.`".ISDCBK_MYSQL_BLATBNAME."`;";
+                                    echo $blsearch;
+                                    $articles = $bldb->query($blsearch);
+                                    while ($row = $articles->fetch_array(MYSQLI_ASSOC)){
+                                        $articleid = $row['ID'];
+                                        $categoryid = $row['category_ID'];
+                                        $authorid = $row['author_ID'];
+                                        $postdate = $row['post_date'];
+                                        $title = $row['title'];
+                                        $status = $row['status'];
+                                        $commentstatus = $row['comment_status'];
+                                        $lastmodified = $row['last_modified'];
+                                        $readcount = $row['readcount'];
+                                        $commentcount = $row['commentcount'];
+                                        if ($status){
+                                            $bls_string = 'enable';
+                                        }
+                                        else{
+                                            $bls_string = 'disable';
+                                        }
+                                        if ($commentstatus){
+                                            $blc_string = 'enable';
+                                        }
+                                        else{
+                                            $blc_string = 'disable';
+                                        }
+                                        echo '<tr><th>'.$articleid.'</th>'.
+                                            '<td>'.$categoryid.'</td>'.
+                                            '<td>'.$authorid.'</td>'.
+                                            '<td>'.$postdate.'</td>'.
+                                            '<td>'.$title.'</td>'.
+                                            '<td><a class="bls-enable" value="'.$articleid.'">'.$bls_string.'</a></td>'.
+                                            '<td><a class="blc-enable" value="'.$articleid.'">'.$blc_string.'</a></td>'.
+                                            '<td>'.$lastmodified.'</td>'.
+                                            '<td>'.$readcount.'</td>'.
+                                            '<td>'.$commentcount.'</td>'.
+                                            '<td><a class="article-delete" value="'.$articleid.'">Delete</a></td>'.
+                                            '</tr>';
+                                    }
+                                    $articles->close();
+
+                                    ?>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="tab-pane fade" id="page-blog-man2">
-                                <h4>博客管理 2</h4>
+                                <h4>评论管理</h4>
                                 <hr />
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>artical</th>
+                                        <th>commenter</th>
+                                        <th>comment_date</th>
+                                        <th>view</th>
+                                        <th>status</th>
+                                        <th>delete</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $blsearch = "SELECT * FROM `" . ISDCBK_MYSQL_BLDBNAME."`.`".ISDCBK_MYSQL_BLCTBNAME."`;";
+                                    echo $blsearch;
+                                    $comments = $bldb->query($blsearch);
+                                    while ($row = $comments->fetch_array(MYSQLI_ASSOC)){
+                                        $commentid = $row['ID'];
+                                        $articleid = $row['article_ID'];
+                                        $commenterid = $row['commenter_ID'];
+                                        $commentdate = $row['comment_date'];
+                                        $status = $row['status'];
+                                        if ($status){
+                                            $cstatus_string = 'enable';
+                                        }
+                                        else{
+                                            $cstatus_string = 'disable';
+                                        }
+                                        echo '<tr><th>'.$commentid.'</th>'.
+                                            '<td>'.$articleid.'</td>'.
+                                            '<td>'.$commenterid.'</td>'.
+                                            '<td>'.$commentdate.'</td>'.
+                                            '<td><a class="comment-enable" value="'.$commentid.'">view</a></td>'.
+                                            '<td><a class="comment-enable" value="'.$commentid.'">'.$cstatus_string.'</a></td>'.
+                                            '<td><a class="comment-delete" value="'.$commentid.'">Delete</a></td>'.
+                                            '</tr>';
+                                    }
+                                    $comments->close();
+
+                                    ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -281,12 +670,137 @@
                     <div class="tab-pane fade" id="right-content-oj">
                         <h4>oj管理</h4>
                         <hr />
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>auto</th>
+                                <th>type</th>
+                                <th>lang</th>
+                                <th>title</th>
+                                <th>time</th>
+                                <th>memory</th>
+                                <th>start_time</th>
+                                <th>end_time</th>
+                                <th>desc</th>
+                                <th>input</th>
+                                <th>output</th>
+                                <th>ratio</th>
+                                <th>enable</th>
+                                <th>modify</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $ojsearch = "SELECT * FROM `" . ISDCBK_MYSQL_TPDBNAME."`.`".ISDCBK_MYSQL_OJPTBNAME."`;";
+                            echo $ojsearch;
+                            $problems = $psdb->query($ojsearch);
+                            while ($row = $problems->fetch_array(MYSQLI_ASSOC)){
+                                $pid = $row['ID'];
+                                $pis_auto = $row['is_auto'];
+                                $ptype = $row['type'];
+                                $planguage = $row['language_limit'];
+                                $ptitle = $row['title'];
+                                $ptl = $row['time_limit'];
+                                $pml = $row['memory_limit'];
+                                $pst = $row['start_time'];
+                                $pet = $row['end_time'];
+                                $pdescription = $row['description'];
+                                $pinput = $row['input'];
+                                $poutput = $row['output'];
+                                $pratio = $row['ratio'];
+                                $pac = $row['accepted'];
+                                $psb = $row['submitted'];
+                                $penable = $row['enable'];
+                                if ($pis_auto){
+                                    $auto_string = 'auto';
+                                }
+                                else{
+                                    $auto_string = 'not';
+                                }
+                                if ($penable){
+                                    $penable_string = 'enable';
+                                }
+                                else{
+                                    $penable_string = 'disable';
+                                }
+
+
+                                echo '<tr><th>'.$pid.'</th>'.
+                                    '<td><a class="p-auto" value="'.$pid.'">'.$auto_string.'</a></td>'.
+                                    '<td>'.$ptype.'</td>'.
+                                    '<td>'.$planguage.'</td>'.
+                                    '<td>'.$ptitle.'</td>'.
+                                    '<td>'.$ptl.'</td>'.
+                                    '<td>'.$pml.'</td>'.
+                                    '<td>'.$pst.'</td>'.
+                                    '<td>'.$pet.'</td>'.
+                                    '<td><a class="oj-modify" url="'.$pdescription.'">modify</a></td>'.
+                                    '<td><a class="oj-modify" url="'.$pinput.'">modify</a></td>'.
+                                    '<td><a class="oj-modify" url=">'.$poutput.'">modify</a></td>'.
+                                    '<td>'.$pratio.'</td>'.
+                                    '<td>'.$penable.'</td>'.
+                                    '</tr>';
+                            }
+                            $problems->close();
+
+                            ?>
+                            </tbody>
+                        </table>
                     </div>
                 <?php } ?>
                 <?php if($privilege[5]) { ?>
                     <div class="tab-pane fade" id="right-content-ctf">
                         <h4>ctf管理</h4>
                         <hr />
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>start_time</th>
+                                <th>end_time</th>
+                                <th>type</th>
+                                <th>enable</th>
+                                <th>modify</th>
+                                <th>delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $ctfsearch = "SELECT * FROM `" . ISDCBK_MYSQL_TPDBNAME."`.`".ISDCBK_MYSQL_CTFSTBNAME."`;";
+                            echo $ctfsearch;
+                            $sets = $psdb->query($ctfsearch);
+                            while ($row = $sets->fetch_array(MYSQLI_ASSOC)){
+                                $sid = $row['ID'];
+                                $sname = $row['name'];
+                                $sst = $row['start_time'];
+                                $set = $row['end_time'];
+                                $stype = $row['type'];
+                                $senable = $row['enable'];
+                                if ($senable){
+                                    $senable_string = 'enable';
+                                }
+                                else{
+                                    $senable_string = 'disable';
+                                }
+
+
+                                echo '<tr><th>'.$sid.'</th>'.
+                                    '<td>'.$sname.'</td>'.
+                                    '<td>'.$sst.'</td>'.
+                                    '<td>'.$set.'</td>'.
+                                    '<td>'.$stype.'</td>'.
+                                    '<td><a class="ctf-enable" value="'.$sid.'">'.$senable_string.'</a></td>'.
+                                    '<td><a class="ctf-modify" value="'.$sid.'">modify</a></td>'.
+                                    '<td><a class="ctf-delete" value="'.$sid.'">delete</a></td>'.
+                                    '</tr>';
+                            }
+                            $sets->close();
+
+                            ?>
+                            </tbody>
+                        </table>
                     </div>
                 <?php } ?>
                 <?php if($privilege[6]) { ?>
@@ -299,29 +813,43 @@
                     <div class="tab-pane fade" id="right-content-public">
                         <h4>公共服务管理</h4>
                         <hr />
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>service name</th>
+                                <th>path</th>
+                                <th>enable</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $pssearch = "SELECT * FROM `" . ISDCBK_MYSQL_PSDBNAME."`.`".ISDCBK_MYSQL_SERVICETBNAME."`;";
+                            $services = $psdb->query($pssearch);
+                            while ($row = $services->fetch_array(MYSQLI_ASSOC)){
+                                $serviceid = $row['ID'];
+                                $servicename = $row['name'];
+                                $servicepath = $row['path'];
+                                $serviceenable = $row['enable'];
+                                if ($serviceenable){
+                                    $enable_string = 'enable';
+                                }
+                                else{
+                                    $enable_string = 'disable';
+                                }
+                                echo '<tr><th>'.$serviceid.'</th>'.
+                                    '<td>'.$servicename.'</td>'.
+                                    '<td>'.$servicepath.'</td>'.
+                                    '<td><a class="service-enable" value="'.$serviceid.'">'.$enable_string.'</a></td>'.
+                                    '</tr>';
+                            }
+                            $services->close();
+
+                            ?>
+                            </tbody>
+                        </table>
                     </div>
                 <?php } ?>
-
-<!--                <div class="tab-pane fade" id="right-content-index">-->
-<!--					<h4>主页管理</h4>-->
-<!--					<hr />-->
-<!--				</div>-->
-<!--				<div class="tab-pane fade" id="right-content-training">-->
-<!--					<ul class="nav nav-pills ib-nav-list ib-subsubnav" role="tablist">-->
-<!--						<li class="active"><a href="#page-training-man1">训练平台 1</a></li>-->
-<!--						<li><a href="#page-training-man2">训练平台 2</a></li>-->
-<!--					</ul>-->
-<!--					<div class="tab-content">-->
-<!--						<div class="tab-pane fade active in" id="page-training-man1">-->
-<!--							<h4>训练平台 1</h4>-->
-<!--							<hr />-->
-<!--						</div>-->
-<!--						<div class="tab-pane fade" id="page-training-man2">-->
-<!--							<h4>训练平台 2</h4>-->
-<!--							<hr />-->
-<!--						</div>-->
-<!--					</div>-->
-<!--				</div>-->
 
 			</div>
 		</div>

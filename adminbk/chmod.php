@@ -27,7 +27,7 @@ $privilege = [
 $ucdb = new mysqli(ISDCBK_MYSQL_HOST, ISDCBK_MYSQL_USER, ISDCBK_MYSQL_PWD, ISDCBK_MYSQL_UCDBNAME);
 $ucdb->query("set character set 'utf8'");
 $ucdb->query("set names 'utf8'");
-$ucsearch = "SELECT `privilege` FROM " . ISDCBK_MYSQL_USRTBNAME . " WHERE `username`='".$username."'";
+$ucsearch = "SELECT `privilege` FROM " . ISDCBK_MYSQL_USRTBNAME . " WHERE `username`='".$username."';";
 $result = $ucdb->query($ucsearch);
 if (!$result){
     header("Location: http://www.scuisdc.com/hhh");
@@ -36,14 +36,16 @@ if (!$result){
 $row = $result->fetch_array(MYSQLI_ASSOC);
 $numpri = $row["privilege"];
 $result->close();
+$i = 0;
 while($numpri){
     $privilege[$i] = $numpri % 2;
-    $numpri /= 2;
+    $numpri = ($numpri-$privilege[$i])/2;
     $i += 1;
 }
 $modprivilege = $_POST['privilege'];
 $modusr = $_POST['usr'];
-
+//$modprivilege = $_GET['privilege'];
+//$modusr = $_GET['usr'];
 if (!$privilege[0]){
     header("Location: http://www.scuisdc.com/hhh");
     exit();
@@ -53,8 +55,8 @@ if (!$privilege[1]){
     exit();
 }
 
-$ucupdate = "UPDATE `UserCenter`.`user` SET `privilege` = '".$modprivilege."' WHERE `user`.`ID` = ".$modusr.";";
+$ucupdate = "UPDATE `".ISDCBK_MYSQL_UCDBNAME."`.`".ISDCBK_MYSQL_USRTBNAME."` SET `privilege` = '".$modprivilege."' WHERE `user`.`ID` = ".$modusr.";";
 $ucdb->query($ucupdate);
-
+echo $ucupdate;
 $ucdb->close();
-
+echo '1';

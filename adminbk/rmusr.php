@@ -27,33 +27,37 @@ $privilege = [
 $ucdb = new mysqli(ISDCBK_MYSQL_HOST, ISDCBK_MYSQL_USER, ISDCBK_MYSQL_PWD, ISDCBK_MYSQL_UCDBNAME);
 $ucdb->query("set character set 'utf8'");
 $ucdb->query("set names 'utf8'");
-$ucsearch = "SELECT `privilege` FROM " . ISDCBK_MYSQL_USRTBNAME . " WHERE `username`='".$username."'";
+$ucsearch = "SELECT `privilege` FROM " . ISDCBK_MYSQL_USRTBNAME . " WHERE `username`='".$username."';";
+echo $ucsearch."<br>";
 $result = $ucdb->query($ucsearch);
 if (!$result){
-    header("Location: http://www.scuisdc.com/hhh");
+//    header("Location: http://www.scuisdc.com/hhh");
     exit();
 }
 $row = $result->fetch_array(MYSQLI_ASSOC);
 $numpri = $row["privilege"];
 $result->close();
+$i = 0;
 while($numpri){
     $privilege[$i] = $numpri % 2;
-    $numpri /= 2;
+    $numpri = ($numpri-$privilege[$i])/2;
     $i += 1;
 }
-$modusr = $_POST['usr'];
+//$modusr = $_POST['usr'];
+$modusr = $_GET['usr'];
 
 if (!$privilege[0]){
-    header("Location: http://www.scuisdc.com/hhh");
+//    header("Location: http://www.scuisdc.com/hhh");
     exit();
 }
 if (!$privilege[1]){
-    header("Location: http://www.scuisdc.com/hhh");
+//    header("Location: http://www.scuisdc.com/hhh");
     exit();
 }
 
-$ucdelete = "DELETE FROM `UserCenter`.`user` WHERE `user`.`ID` = ".$modusr.";";
+$ucdelete = "DELETE FROM `".ISDCBK_MYSQL_UCDBNAME."`.`".ISDCBK_MYSQL_USRTBNAME."` WHERE `user`.`ID` = ".$modusr.";";
+echo $ucdelete."<br>";
+
 $ucdb->query($ucdelete);
-
 $ucdb->close();
-
+echo '1';

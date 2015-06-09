@@ -15,6 +15,17 @@ define("ISDCBK_MYSQL_BLDBNAME", "Blog");
 define("ISDCBK_MYSQL_CMSDBNAME", "CMS");
 
 define("ISDCBK_MYSQL_USRTBNAME", "user");
+define("ISDCBK_MYSQL_SERVICETBNAME", "service");
+define("ISDCBK_MYSQL_OJPTBNAME", "oj_problem");
+define("ISDCBK_MYSQL_CTFSTBNAME", "ctf_set");
+define("ISDCBK_MYSQL_BLATBNAME", "article");
+define("ISDCBK_MYSQL_BLCTBNAME", "comments");
+define("ISDCBK_MYSQL_CMSCONTACTTBNAME", "contact");
+define("ISDCBK_MYSQL_CMSSMSTBNAME", "course_semester");
+define("ISDCBK_MYSQL_CMSFNCPTBNAME", "finace_part");
+define("ISDCBK_MYSQL_CMSBANNERTBNAME", "index_banner");
+define("ISDCBK_MYSQL_CMSINTROTBNAME", "intro");
+define("ISDCBK_MYSQL_CMSINTROCTBNAME", "intro_column");
 
 $PRIVILEGE = [
     0 => false, //用户
