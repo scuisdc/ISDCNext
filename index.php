@@ -1,5 +1,3 @@
-<? session_start(); ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +8,7 @@
 
 <body class="home">
     <?php
-        $_home_class='class="active"'; $_blog_class=$_train_class=''; $_service_class=$_about_class='class="dropdown"';
+        $_home_class='class="active"'; $_blog_class='';$_train_class=$_service_class=$_about_class='class="dropdown"';
         
         require('./navi.inc.php');
         
@@ -48,12 +46,13 @@
             $banner_subtitle = $banners[$i]['subtitle'];
             $banner_btntext = $banners[$i]['button_text'];
             $banner_btnurl = $banners[$i]['button_link'];
-            if (array_key_exists("bg_pic_path", $banners[$i]))
+            if (array_key_exists('bg_pic_path', $banners[$i])) {
                 $banner_bg = $banners[$i]['bg_pic_path'];
                 if (substr($banner_bg, 0, 1) != '#')
                     $banner_bg = 'url(' . $banners[$i]['bg_pic_path'] . ')';
-            else
+            } else {
                 $banner_bg = '#181015';
+            }
             
             if ($first_flag) {
                 $first_flag = 0;
