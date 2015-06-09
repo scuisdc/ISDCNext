@@ -55,7 +55,7 @@
                                         <li><a href="">用户中心</a></li>
                                         %s
                                         <hr />
-                                        <li><a href="">注销</a></li>
+                                        <li><a href="./usercenter/logreg/signout.php">注销</a></li>
                                     </ul>
                                 </li>';
             $login_template = '<li><a href="/usercenter/logreg/login.php">登录/注册</a></li>';
@@ -103,13 +103,14 @@
                 
                 $uc = new GloriousDB(DBConfig::$DB_host, DBConfig::$DB_UC_User, DBConfig::$DB_UC_Pass, DBConfig::$DB_UC_Name);
                 $uc->setTable('user');
-                $user = $uc->findOne($userid);
+                $uc->where(['username' => $userid]);
+                $user = $uc->find('*')[0];
                 if ($user['privilege'] != 0 && $user['privilege'] != 1) {
                     $ifPrivilege = '<li><a href="">后台管理</a></li>';
                 } else {
                     $ifPrivilege = '';
                 }
-                $userInfo = sprintf($user_info_template, $user['displayname'], $ifPrivilege);
+                $userInfo = sprintf($user_info_template, $userid, $ifPrivilege);
             } else {
                 $userInfo = $login_template;
             }

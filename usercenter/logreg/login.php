@@ -140,7 +140,7 @@ require_once('../../footer.inc.php');
                     } else if (data == "success"){
                         $("#success").toggleClass("hidden");
                         setTimeout(function(){console.log("successfully login");}, 5000);
-                        window.location.href="../index.php";
+                        window.location.href="../../index.php";
                     }
 				});
 

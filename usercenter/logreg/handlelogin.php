@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once("/glorious/glorious.php");
-require_once("/glorious/config.php");
+require_once("../../glorious/glorious.php");
+require_once("../../glorious/config.php");
 
 $captcha = $_SESSION["code"];
 $user_cap = $_POST["user"];

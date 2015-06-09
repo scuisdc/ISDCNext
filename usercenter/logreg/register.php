@@ -88,14 +88,12 @@ if(isset($_SESSION['valid_user']))
 							<hr />
 
 							<form action="handleregister.php" id="form" method="post" name="form" id="form" class="form-horizontal" role="form">
-
-							<div class="form-group">
+                              <div class="form-group">
 							    <label for="email" class="col-sm-2 control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
 							    <div class="col-sm-10">
 							      <input type="email" class="form-control" id="email" name="email" placeholder="Email">
 							    </div>
-							</div>
-
+							  </div>
 							  <div class="form-group">
 							    <label for="inputUsername" class="col-sm-2 control-label">用户名</label>
 							    <div class="col-sm-10">
@@ -106,6 +104,12 @@ if(isset($_SESSION['valid_user']))
 							    <label for="inputPassword" class="col-sm-2 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
 							    <div class="col-sm-10">
 							      <input type="password" class="form-control" id="passwd" name="passwd" placeholder="Password">
+							    </div>
+							  </div>
+							  <div class="form-group">
+							    <label for="nickName" class="col-sm-2 control-label">昵&nbsp;&nbsp;&nbsp;&nbsp;称</label>
+							    <div class="col-sm-10">
+							      <input type="text" class="form-control" id="nick" name="nick" placeholder="昵称">
 							    </div>
 							  </div>
 							  <hr />
@@ -138,14 +142,18 @@ require_once('../../footer.inc.php');
 				var email = $("#email").val();
 				var userid = $("#userid").val();
 				var passwd = $("#passwd").val();
+                var nick = $("#nick").val();
 				var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-				if (!email || !userid || !passwd) {
+				if (!email || !userid || !passwd || !nick) {
 					$("#blank").toggleClass("hidden");
 				}
-				else if(email.contains(" ") || email.contains("-") || email.contains("'") || 		email.contains("<") || email.contains(">") || email.contains("&")) {
+				else if(email.contains(" ") || email.contains("-") || email.contains("'") || email.contains("<") || email.contains(">") || email.contains("&")) {
 					$("#username").toggleClass("hidden");
 				}
 				else if (userid.contains(" ") || userid.contains("-") || userid.contains("'") || userid.contains("<") || userid.contains(">") || userid.contains("&")){
+					$("#username").toggleClass("hidden");
+				}
+                else if (nick.contains(" ") || nick.contains("-") || nick.contains("'") || nick.contains("<") || nick.contains(">") || nick.contains("&")){
 					$("#username").toggleClass("hidden");
 				}
 				else if (!filter.test(email)) {
@@ -155,7 +163,7 @@ require_once('../../footer.inc.php');
 					$("#passwd_val").toggleClass("hidden");
 				}
 				else {
-					$.post("handleregister.php", {email:email, passwd:passwd, userid:userid}, function(data){
+					$.post("handleregister.php", {email:email, passwd:passwd, userid:userid, nick:nick}, function(data){
 						if (data == "dberror") {
 							$("#dberror").toggleClass("hidden");
 						}
@@ -165,7 +173,7 @@ require_once('../../footer.inc.php');
 						else {
 							$("#success").toggleClass("hidden");
 							setTimeout(function(){console.log("successfully reigstered");}, 5000);
-							window.location.href="../index.php"
+							window.location.href="../../index.php"
 						}
 					});
 				}

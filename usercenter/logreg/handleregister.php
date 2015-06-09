@@ -1,15 +1,16 @@
 <?php
 session_start();
-require_once("/glorious/glorious.php");
-require_once("/glorious/config.php");
+require_once("../../glorious/glorious.php");
+require_once("../../glorious/config.php");
 
 $email = trim($_POST['email']);
 $passwd = trim($_POST['passwd']);
 $userid = trim($_POST['userid']);
+$nick = trim($_POST['nick']);
 
 $passwd = md5(sha1($passwd));
 
-if (!isset($email) || !isset($passwd) || !isset($userid)) {
+if (!isset($email) || !isset($passwd) || !isset($userid) || !isset($nick)) {
     header('Location: http://www.scuisdc.com/404');
     die();
 }
@@ -27,6 +28,7 @@ if ($db->state() == 1) {
             "email" => $email,
             "passwd" => $passwd,
             "username" => $userid,
+            "displayname" => $nick,
             "privilege" => '1'
         ]);
         $_SESSION["valid_user"] = $userid;
